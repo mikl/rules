@@ -35,7 +35,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     "limit" = @ContextDefinition("integer",
  *       label = @Translation("Limit"),
  *       description = @Translation("Limit the maximum number of fetched entities."),
- *       isRequired = false,
+ *       required = FALSE,
  *     ),
  *   },
  *   provides = {
@@ -100,12 +100,19 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
         $this->entityManager->setContainer($container);
         $storage = $this->entityManager->getStorage($entity_type);
 
-        /*$entity_ids = \Drupal::entityQuery('node')
-          ->condition($entity_property, $property_value, '=')
-          ->range(0, ($limit - 1))
-          ->execute();*/
+        if(empty($limit)) {
+            $entities = $storage->loadByProperties(array());
+        } else {
+            /*$entity_ids = \Drupal::entityQuery('node')
+                ->condition($entity_property, $property_value, '=')
+                ->range(0, ($limit - 1))
+                ->execute();*/
+            $entities = $storage->loadMultiple(array());
+        }
 
-        $entities = $storage->loadMultiple(array());
+
+
+
         $this->setProvidedValue('entity_fetched', $entities);
     }
 
