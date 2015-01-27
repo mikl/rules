@@ -7,15 +7,16 @@
 
 namespace Drupal\rules\Plugin\Action;
 
-use Drupal\Core\TypedData\TypedDataManager;
-use Drupal\rules\Context\ContextDefinition;
+use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\rules\Engine\RulesActionBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'Fetch entities by property' action.
  *
  * @Action(
- *   id = "rules_entity_property_fetch_action",
+ *   id = "rules_entity_property_fetch",
  *   label = @Translation("Fetch entities by property"),
  *   category = @Translation("Data"),
  *   context = {
@@ -34,17 +35,50 @@ use Drupal\rules\Engine\RulesActionBase;
  *     "limit" = @ContextDefinition("integer",
  *       label = @Translation("Limit"),
  *       description = @Translation("Limit the maximum number of fetched entities."),
+ *       isRequired = false,
  *     ),
  *   },
  *   provides = {
  *      "entity_fetched" = @ContextDefinition("list",
  *        label = @Translation("Fetched entity"),
+ *      )
  *   }
  * )
  *
  * @todo: Add access callback information from Drupal 7.
  */
-class EntityPropertyFetch extends RulesActionBase {
+class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPluginInterface {
+
+    /**
+     * The entity manager.
+     *
+     * @var \Drupal\Core\Entity\EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * Constructs a EntityPropertyFetch object.
+     *
+     * @param array $configuration
+     *   A configuration array containing information about the plugin instance.
+     * @param string $plugin_id
+     *   The plugin ID for the plugin instance.
+     * @param mixed $plugin_definition
+     *   The plugin implementation definition.
+     * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+     *   The entity manager service.
+     */
+    public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManagerInterface $entity_manager) {
+        parent::__construct($configuration, $plugin_id, $plugin_definition);
+        $this->entityManager = $entity_manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+        return new static($configuration, $plugin_id, $plugin_definition, $container->get('entity.manager'));
+    }
 
     /**
      * {@inheritdoc}
@@ -62,8 +96,17 @@ class EntityPropertyFetch extends RulesActionBase {
         $property_value = $this->getContextValue('value');
         $limit = $this->getContextValue('limit');
 
-        $fetched_entity = entity_load_multiple_by_properties($entity_type, $entity_property, $property_value);
-        $this->setContextValue('fetched_entity', $fetched_entity);
+        $container = \Drupal::getContainer();
+        $this->entityManager->setContainer($container);
+        $storage = $this->entityManager->getStorage($entity_type);
+
+        /*$entity_ids = \Drupal::entityQuery('node')
+          ->condition($entity_property, $property_value, '=')
+          ->range(0, ($limit - 1))
+          ->execute();*/
+
+        $entities = $storage->loadMultiple(array());
+        $this->setProvidedValue('entity_fetched', $entities);
     }
 
 }
