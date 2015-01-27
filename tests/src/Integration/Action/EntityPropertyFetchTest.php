@@ -40,9 +40,15 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
 
     $this->enableModule('node');
 
+    $query = $this->getMock('Drupal\Core\Entity\Query\QueryInterface');
+
     $factory = $this->getMockBuilder('Drupal\Core\Entity\Query\QueryFactory')
         ->disableOriginalConstructor()
         ->getMock();
+
+    $factory->expects($this->once())
+        ->method('get')
+        ->willReturn($query);
 
     $statement = $this->getMockBuilder('Drupal\Core\Database\Driver\fake\FakeStatement')
         ->disableOriginalConstructor()
@@ -83,6 +89,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->getMock();
 
     $this->container->set('entity.query', $factory);
+    $this->container->set('entity.query.sql', $factory);
     $this->container->set('database', $database);
     $this->container->set('cache.entity', $this->cacheBackend);
     $this->container->set('language_manager', $language_manager);
@@ -116,7 +123,6 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $this->action->setContextValue('type', 'entity_test')
       ->setContextValue('property', 'test_property')
       ->setContextValue('value', 'llama')
-      ->setContextValue('limit', 10)
       ->execute();
     //$this->assertSame($entity, $this->action->getContextValue('provided'));
   }
