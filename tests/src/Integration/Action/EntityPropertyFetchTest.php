@@ -115,16 +115,16 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
    * @covers ::execute()
    */
   public function testActionExecution() {
-    /*$property_values = array('test_property' => 'foo');
+    $property_values = array('test_property' => 'llama');
     $entities = $this->entityStorage->expects($this->once())
         ->method('loadProperties')
-        ->with($property_values);*/
+        ->with($property_values);
 
     $this->action->setContextValue('type', 'entity_test')
       ->setContextValue('property', 'test_property')
       ->setContextValue('value', 'llama')
       ->execute();
-    //$this->assertSame($entity, $this->action->getContextValue('provided'));
+    $this->assertSame($entities, $this->action->getProvided('entity_fetched'));
   }
 
 }

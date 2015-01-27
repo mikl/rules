@@ -101,7 +101,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
         $storage = $this->entityManager->getStorage($entity_type);
 
         if(empty($limit)) {
-            $entities = $storage->loadByProperties(array());
+            $entities = $storage->loadByProperties(array($entity_property => $property_value));
         } else {
             /*$entity_ids = \Drupal::entityQuery('node')
                 ->condition($entity_property, $property_value, '=')
