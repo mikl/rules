@@ -29,7 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *       description = @Translation("The property by which the entity is to be selected.."),
  *     ),
  *     "value" = @ContextDefinition("any",
- *       label = @Translation("Vakye"),
+ *       label = @Translation("Value"),
  *       description = @Translation("The property value of the entity to be fetched."),
  *     ),
  *     "limit" = @ContextDefinition("integer",
@@ -112,7 +112,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
 
 
 
-
+        $entities = array();
         $this->setProvidedValue('entity_fetched', $entities);
     }
 
