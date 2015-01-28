@@ -46,7 +46,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
         ->disableOriginalConstructor()
         ->getMock();
 
-    $factory->expects($this->once())
+    $factory->expects($this->any())
         ->method('get')
         ->willReturn($query);
 
@@ -117,7 +117,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   public function testActionExecution() {
     $property_values = array('test_property' => 'llama');
     $entities = $this->entityStorage->expects($this->once())
-        ->method('loadProperties')
+        ->method('loadByProperties')
         ->with($property_values);
 
     $this->action->setContextValue('type', 'entity_test')
