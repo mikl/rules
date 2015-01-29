@@ -96,23 +96,19 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
         $property_value = $this->getContextValue('value');
         $limit = $this->getContextValue('limit');
 
-        $container = \Drupal::getContainer();
-        $this->entityManager->setContainer($container);
         $storage = $this->entityManager->getStorage($entity_type);
 
         if(empty($limit)) {
             $entities = $storage->loadByProperties(array($entity_property => $property_value));
         } else {
-            /*$entity_ids = \Drupal::entityQuery('node')
+            $query = $storage->getQuery();
+            $entity_ids = $query
                 ->condition($entity_property, $property_value, '=')
-                ->range(0, ($limit - 1))
-                ->execute();*/
-            $entities = $storage->loadMultiple(array());
+                ->range(0, $limit)
+                ->execute();
+            $entities = $storage->loadMultiple($entity_ids);
         }
 
-
-
-        $entities = array();
         $this->setProvidedValue('entity_fetched', $entities);
     }
 
