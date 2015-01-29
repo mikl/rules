@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Action(
  *   id = "rules_entity_property_fetch",
  *   label = @Translation("Fetch entities by property"),
- *   category = @Translation("Data"),
+ *   category = @Translation("Entity"),
  *   context = {
  *     "type" = @ContextDefinition("string",
  *       label = @Translation("Entity type"),
@@ -49,71 +49,76 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPluginInterface {
 
-    /**
-     * The entity manager.
-     *
-     * @var \Drupal\Core\Entity\EntityManagerInterface
-     */
-    protected $entityManager;
+  /**
+   * The entity manager.
+   *
+   * @var \Drupal\Core\Entity\EntityManagerInterface
+   */
+  protected $entityManager;
 
-    /**
-     * Constructs a EntityPropertyFetch object.
-     *
-     * @param array $configuration
-     *   A configuration array containing information about the plugin instance.
-     * @param string $plugin_id
-     *   The plugin ID for the plugin instance.
-     * @param mixed $plugin_definition
-     *   The plugin implementation definition.
-     * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-     *   The entity manager service.
-     */
-    public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManagerInterface $entity_manager) {
-        parent::__construct($configuration, $plugin_id, $plugin_definition);
-        $this->entityManager = $entity_manager;
+  /**
+   * Constructs a EntityPropertyFetch object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   *   The entity manager service.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManagerInterface $entity_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityManager = $entity_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity.manager')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function summary() {
+    return $this->t('Fetch entities by property');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function execute() {
+    // Retrieve context values for action
+    $entity_type = $this->getContextValue('type');
+    $entity_property = $this->getContextValue('property');
+    $property_value = $this->getContextValue('value');
+    $limit = $this->getContextValue('limit');
+
+    $storage = $this->entityManager->getStorage($entity_type);
+
+    // When retrieving entities, if $limit is not set there is no need to use query object directly
+    $entities = array();
+    if (is_null($limit)) {
+      $entities = $storage->loadByProperties(array($entity_property => $property_value));
+    } else {
+      $query = $storage->getQuery();
+      $entity_ids = $query
+        ->condition($entity_property, $property_value, '=')
+        ->range(0, $limit)
+        ->execute();
+      $entities = $storage->loadMultiple($entity_ids);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-        return new static($configuration, $plugin_id, $plugin_definition, $container->get('entity.manager'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function summary() {
-        return $this->t('Fetch entities by property');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function execute() {
-        $entity_type = $this->getContextValue('type');
-        $entity_property = $this->getContextValue('property');
-        $property_value = $this->getContextValue('value');
-        $limit = $this->getContextValue('limit');
-
-        $container = \Drupal::getContainer();
-        $this->entityManager->setContainer($container);
-        $storage = $this->entityManager->getStorage($entity_type);
-
-        if(empty($limit)) {
-            $entities = $storage->loadByProperties(array($entity_property => $property_value));
-        } else {
-            /*$entity_ids = \Drupal::entityQuery('node')
-                ->condition($entity_property, $property_value, '=')
-                ->range(0, ($limit - 1))
-                ->execute();*/
-            $entities = $storage->loadMultiple(array());
-        }
-
-
-
-        $entities = array();
-        $this->setProvidedValue('entity_fetched', $entities);
-    }
+    // Set provided value
+    $this->setProvidedValue('entity_fetched', $entities);
+  }
 
 }
