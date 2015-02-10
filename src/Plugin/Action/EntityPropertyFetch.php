@@ -39,8 +39,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     ),
  *   },
  *   provides = {
- *      "entity_fetched" = @ContextDefinition("list",
+ *      "entity_fetched" = @ContextDefinition("entity",
  *        label = @Translation("Fetched entity"),
+ *        multiple = TRUE,
  *      )
  *   }
  * )
@@ -120,6 +121,9 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
 
     // Set provided value.
     $this->setProvidedValue('entity_fetched', $entities);
+
+    // Ensure that the provided context has the correct entity type.
+    $this->getProvidedDefinition('entity_fetched')->setDataType("entity:$entity_type");
   }
 
 }

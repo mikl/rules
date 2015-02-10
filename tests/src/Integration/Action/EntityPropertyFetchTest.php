@@ -28,7 +28,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   public function setUp() {
     parent::setUp();
 
-    // Prepare dummy entity manager.
+    // Prepare our own dummy entityManager as the entityManager in
+    // RulesEntityIntegrationTestBase does not mock the getStorage method.
     $this->entityManager = $this->getMockBuilder('Drupal\Core\Entity\EntityManager')
       ->setMethods(['getBundleInfo', 'getStorage'])
       ->setConstructorArgs([
@@ -76,7 +77,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $property_value = 'llama';
 
     // Create an array of dummy entities.
-    $entities = array();
+    $entities = [];
     for ($i = 0; $i < 2; $i++) {
       $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');
       $entities[] = $entity;
