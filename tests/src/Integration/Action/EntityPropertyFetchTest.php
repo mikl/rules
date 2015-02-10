@@ -70,19 +70,19 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
    * @covers ::execute()
    */
   public function testActionExecutionWithNoLimit() {
-    // Create variables for action context values
+    // Create variables for action context values.
     $entity_type = 'entity_test';
     $property_name = 'test_property';
     $property_value = 'llama';
 
-    // Create an array of dummy entities
+    // Create an array of dummy entities.
     $entities = array();
     for ($i = 0; $i < 2; $i++) {
       $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');
       $entities[] = $entity;
     }
 
-    // Create dummy entity storage object
+    // Create dummy entity storage object.
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
@@ -93,13 +93,13 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->with($entity_type)
       ->will($this->returnValue($entityStorage));
 
-    // Set context values for EntityPropertyFetch action and execute
+    // Set context values for EntityPropertyFetch action and execute.
     $this->action->setContextValue('type', $entity_type)
       ->setContextValue('property', $property_name)
       ->setContextValue('value', $property_value)
       ->execute();
 
-    // Test that executing action without a value for limit returns the dummy entities array
+    // Test that executing action without a value for limit returns the dummy entities array.
     $this->assertEquals($entities, $this->action->getProvided('entity_fetched')->getContextValue('entity_fetched'));
   }
 
@@ -121,13 +121,13 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       $entities[] = $entity;
     }
 
-    // Create new dummy array of entities for testing limit
+    // Create new dummy array of entities for testing limit.
     $entities = array_slice($entities, 0, $limit);
 
-    // Creates entity ids for new dummy array of entities
+    // Creates entity ids for new dummy array of entities.
     $entity_ids = range(1, $limit);
 
-    // Create dummy query object
+    // Create dummy query object.
     $query = $this->getMock('Drupal\Core\Entity\Query\QueryInterface');
     $query->expects($this->once())
       ->method('condition')
@@ -141,7 +141,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->method('execute')
       ->will($this->returnValue($entity_ids));
 
-    // Create dummy entity storage object
+    // Create dummy entity storage object.
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadMultiple')
@@ -156,14 +156,14 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->will($this->returnValue($entityStorage));
 
 
-    // Set context values for EntityPropertyFetch action and execute
+    // Set context values for EntityPropertyFetch action and execute.
     $this->action->setContextValue('type', $entity_type)
       ->setContextValue('property', $property_name)
       ->setContextValue('value', $property_value)
       ->setContextValue('limit', $limit)
       ->execute();
 
-    // Test that executing action with a value for limit returns the dummy entities array
+    // Test that executing action with a value for limit returns the dummy entities array.
     $this->assertEquals($entities, $this->action->getProvided('entity_fetched')->getContextValue('entity_fetched'));
   }
 

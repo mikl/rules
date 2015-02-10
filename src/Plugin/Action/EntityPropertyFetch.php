@@ -96,7 +96,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function execute() {
-    // Retrieve context values for action
+    // Retrieve context values for action.
     $entity_type = $this->getContextValue('type');
     $entity_property = $this->getContextValue('property');
     $property_value = $this->getContextValue('value');
@@ -104,11 +104,12 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
 
     $storage = $this->entityManager->getStorage($entity_type);
 
-    // When retrieving entities, if $limit is not set there is no need to use query object directly
-    $entities = array();
+    // When retrieving entities, if $limit is not set there is no need to use query object directly.
+    $entities = [];
     if (is_null($limit)) {
       $entities = $storage->loadByProperties(array($entity_property => $property_value));
-    } else {
+    }
+    else {
       $query = $storage->getQuery();
       $entity_ids = $query
         ->condition($entity_property, $property_value, '=')
@@ -117,7 +118,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
       $entities = $storage->loadMultiple($entity_ids);
     }
 
-    // Set provided value
+    // Set provided value.
     $this->setProvidedValue('entity_fetched', $entities);
   }
 
