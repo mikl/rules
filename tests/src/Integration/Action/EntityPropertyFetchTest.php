@@ -168,4 +168,43 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $this->assertEquals($entities, $this->action->getProvided('entity_fetched')->getContextValue('entity_fetched'));
   }
 
+  /**
+   * Tests that the context provided by the action execution has the correct entity type.
+   *
+   * @covers ::execute()
+   */
+  function testActionExecutionProvidedContextEntityType() {
+    // Create variables for action context values.
+    $entity_type = 'entity_test';
+    $property_name = 'test_property';
+    $property_value = 'llama';
+
+    // Create an array of dummy entities.
+    $entities = [];
+    for ($i = 0; $i < 2; $i++) {
+      $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');
+      $entities[] = $entity;
+    }
+
+    // Create dummy entity storage object.
+    $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
+    $entityStorage->expects($this->once())
+        ->method('loadByProperties')
+        ->with(array($property_name => $property_value))
+        ->will($this->returnValue($entities));
+    $this->entityManager->expects($this->once())
+        ->method('getStorage')
+        ->with($entity_type)
+        ->will($this->returnValue($entityStorage));
+
+    // Set context values for EntityPropertyFetch action and execute.
+    $this->action->setContextValue('type', $entity_type)
+        ->setContextValue('property', $property_name)
+        ->setContextValue('value', $property_value)
+        ->execute();
+
+    // Test that the provided context has the correct entity type.
+    $this->assertEquals('entity:' . $entity_type, $this->action->getProvidedDefinition('entity_fetched')->getDataType());
+  }
+
 }
