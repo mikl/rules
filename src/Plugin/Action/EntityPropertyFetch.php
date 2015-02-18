@@ -109,8 +109,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
     $entities = [];
     if (is_null($limit)) {
       $entities = $storage->loadByProperties(array($entity_property => $property_value));
-    }
-    else {
+    } else {
       $query = $storage->getQuery();
       $entity_ids = $query
         ->condition($entity_property, $property_value, '=')

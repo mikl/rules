@@ -189,19 +189,19 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     // Create dummy entity storage object.
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
-        ->method('loadByProperties')
-        ->with(array($property_name => $property_value))
-        ->will($this->returnValue($entities));
+      ->method('loadByProperties')
+      ->with(array($property_name => $property_value))
+      ->will($this->returnValue($entities));
     $this->entityManager->expects($this->once())
-        ->method('getStorage')
-        ->with($entity_type)
-        ->will($this->returnValue($entityStorage));
+      ->method('getStorage')
+      ->with($entity_type)
+      ->will($this->returnValue($entityStorage));
 
     // Set context values for EntityPropertyFetch action and execute.
     $this->action->setContextValue('type', $entity_type)
-        ->setContextValue('property', $property_name)
-        ->setContextValue('value', $property_value)
-        ->execute();
+      ->setContextValue('property', $property_name)
+      ->setContextValue('value', $property_value)
+      ->execute();
 
     // Test that the provided context has the correct entity type.
     $this->assertEquals('entity:' . $entity_type, $this->action->getProvidedDefinition('entity_fetched')->getDataType());
