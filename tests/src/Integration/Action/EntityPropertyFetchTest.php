@@ -87,7 +87,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
-      ->with(array($property_name => $property_value))
+      ->with([$property_name => $property_value])
       ->will($this->returnValue($entities));
     $this->entityManager->expects($this->once())
       ->method('getStorage')
@@ -116,7 +116,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $limit = 2;
 
     // Create an array of dummy entities.
-    $entities = array();
+    $entities = [];
     for ($i = 0; $i < 4; $i++) {
       $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');
       $entities[] = $entity;
@@ -190,7 +190,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
-      ->with(array($property_name => $property_value))
+      ->with([$property_name => $property_value])
       ->will($this->returnValue($entities));
     $this->entityManager->expects($this->once())
       ->method('getStorage')
