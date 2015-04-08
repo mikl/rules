@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\rules\Engine\RulesActionInterface.
+ * Contains \Drupal\rules\Core\RulesActionInterface.
  */
 
-namespace Drupal\rules\Engine;
+namespace Drupal\rules\Core;
 
 use Drupal\Component\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Action\ActionInterface;
-use Drupal\rules\Context\ProvidedContextPluginInterface;
+use Drupal\rules\Context\ContextProviderInterface;
 
 /**
  * Extends the core ActionInterface to provide context.
  */
-interface RulesActionInterface extends ActionInterface, ContextAwarePluginInterface, ProvidedContextPluginInterface {
+interface RulesActionInterface extends ActionInterface, ContextAwarePluginInterface, ContextProviderInterface {
 
   /**
    * Returns a list of context names that should be auto-saved after execution.

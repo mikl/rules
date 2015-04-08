@@ -10,11 +10,12 @@ namespace Drupal\rules\Plugin\RulesExpression;
 use Drupal\Component\Plugin\Exception\ContextException;
 use Drupal\Core\Action\ActionManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\rules\Engine\RulesActionBase;
-use Drupal\rules\Engine\RulesExpressionActionInterface;
+use Drupal\rules\Context\ContextHandlerTrait;
+use Drupal\rules\Core\RulesActionBase;
+use Drupal\rules\Engine\ActionExpressionInterface;
 use Drupal\rules\Engine\RulesExpressionTrait;
 use Drupal\rules\Engine\RulesState;
-use Drupal\rules\Plugin\RulesDataProcessorManager;
+use Drupal\rules\Context\DataProcessorManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,9 +29,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   label = @Translation("An executable action.")
  * )
  */
-class RulesAction extends RulesActionBase implements ContainerFactoryPluginInterface, RulesExpressionActionInterface {
+class RulesAction extends RulesActionBase implements ContainerFactoryPluginInterface, ActionExpressionInterface {
 
   use RulesExpressionTrait;
+  use ContextHandlerTrait;
 
   /**
    * The action manager used to instantiate the action plugin.
@@ -52,10 +54,10 @@ class RulesAction extends RulesActionBase implements ContainerFactoryPluginInter
    *   The plugin implementation definition.
    * @param \Drupal\Core\Action\ActionManager $action_manager
    *   The action manager.
-   * @param \Drupal\rules\Plugin\RulesDataProcessorManager $processor_manager
+   * @param \Drupal\rules\Context\DataProcessorManager $processor_manager
    *   The data processor plugin manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ActionManager $action_manager, RulesDataProcessorManager $processor_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ActionManager $action_manager, DataProcessorManager $processor_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->actionManager = $action_manager;

@@ -18,7 +18,7 @@ class EntityIsNewTest extends RulesEntityIntegrationTestBase {
   /**
    * The condition to be tested.
    *
-   * @var \Drupal\rules\Engine\RulesConditionInterface
+   * @var \Drupal\rules\Core\RulesConditionInterface
    */
   protected $condition;
 
@@ -33,7 +33,7 @@ class EntityIsNewTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('Entity is new', $this->condition->summary());
@@ -42,7 +42,7 @@ class EntityIsNewTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests evaluating the condition.
    *
-   * @covers ::evaluate()
+   * @covers ::evaluate
    */
   public function testConditionEvaluation() {
     $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');

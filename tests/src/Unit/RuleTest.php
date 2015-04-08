@@ -18,7 +18,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * The rules expression plugin manager.
    *
-   * @var \Drupal\rules\Plugin\RulesExpressionPluginManager
+   * @var \Drupal\rules\Engine\ExpressionPluginManager
    */
   protected $expressionManager;
 
@@ -32,14 +32,14 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * The primary condition container of the rule.
    *
-   * @var \Drupal\rules\Engine\RulesConditionContainerInterface
+   * @var \Drupal\rules\Engine\ConditionExpressionContainerInterface
    */
   protected $conditions;
 
   /**
    * The primary action container of the rule.
    *
-   * @var \Drupal\rules\Engine\RulesActionContainerInterface
+   * @var \Drupal\rules\Engine\ActionExpressionContainerInterface
    */
   protected $actions;
 
@@ -49,7 +49,7 @@ class RuleTest extends RulesUnitTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->expressionManager = $this->getMockBuilder('Drupal\rules\Plugin\RulesExpressionPluginManager')
+    $this->expressionManager = $this->getMockBuilder('Drupal\rules\Engine\ExpressionPluginManager')
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -71,7 +71,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that a rule is constructed with condition and action containers.
    *
-   * @covers ::__construct()
+   * @covers ::__construct
    */
   public function testContainersOnConstruct() {
     $this->assertSame($this->conditions, $this->rule->getConditions());
@@ -81,8 +81,8 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests the condition container setter and getter.
    *
-   * @covers ::setConditions()
-   * @covers ::getConditions()
+   * @covers ::setConditions
+   * @covers ::getConditions
    */
   public function testSetConditionsGetConditions() {
     $or = $this->getMockOr();
@@ -97,8 +97,8 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests the condition container setter and getter.
    *
-   * @covers ::setActions()
-   * @covers ::getActions()
+   * @covers ::setActions
+   * @covers ::getActions
    */
   public function testSetActionsGetActions() {
     $action_set = $this->getMockActionSet();
@@ -109,7 +109,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that an action fires if a condition passes.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecution() {
     // The method on the test action must be called once.
@@ -125,7 +125,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that an action does not fire if a condition fails.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testConditionFails() {
     // The execute method on the action must never be called.
@@ -141,7 +141,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that an action fires if a condition passes.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testTwoConditionsTrue() {
     // The method on the test action must be called once.
@@ -158,7 +158,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that an action does not fire if a condition fails.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testTwoConditionsFalse() {
     // The execute method on the action must never be called.
@@ -175,7 +175,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that nested rules are properly executed.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testNestedRules() {
     $this->testAction->expects($this->once())

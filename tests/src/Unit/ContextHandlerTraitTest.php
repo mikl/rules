@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\rules\Unit\RulesContextTraitTest.
+ * Contains \Drupal\Tests\rules\Unit\ContextHandlerTraitTest.
  */
 
 namespace Drupal\Tests\rules\Unit;
 
 /**
- * @coversDefaultClass \Drupal\rules\Context\RulesContextTrait
+ * @coversDefaultClass \Drupal\rules\Context\ContextHandlerTrait
  * @group rules
  */
-class RulesContextTraitTest extends RulesUnitTestBase {
+class ContextHandlerTraitTest extends RulesUnitTestBase {
 
   /**
    * The mocked condition manager.
@@ -30,13 +30,13 @@ class RulesContextTraitTest extends RulesUnitTestBase {
   /**
    * Tests that a missing required context triggers an exception.
    *
-   * @covers ::mapContext()
-   * @expectedException \Drupal\rules\Engine\RulesEvaluationException
+   * @covers ::mapContext
+   * @expectedException \Drupal\rules\Exception\RulesEvaluationException
    * @expectedExceptionMessage Required context test is missing for plugin testplugin.
    */
   public function testMissingContextMapping() {
     // Set 'getContextValue' as mocked method.
-    $trait = $this->getMockForTrait('Drupal\rules\Context\RulesContextTrait', [], '', TRUE, TRUE, TRUE, ['getContextValue']);
+    $trait = $this->getMockForTrait('Drupal\rules\Context\ContextHandlerTrait', [], '', TRUE, TRUE, TRUE, ['getContextValue']);
     $trait->expects($this->once())
       ->method('getContextValue')
       ->with('test')

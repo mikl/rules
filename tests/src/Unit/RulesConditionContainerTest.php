@@ -8,7 +8,7 @@
 namespace Drupal\Tests\rules\Unit;
 
 /**
- * @coversDefaultClass \Drupal\rules\Engine\RulesConditionContainer
+ * @coversDefaultClass \Drupal\rules\Engine\ConditionExpressionContainer
  * @group rules
  */
 class RulesConditionContainerTest extends RulesUnitTestBase {
@@ -21,21 +21,21 @@ class RulesConditionContainerTest extends RulesUnitTestBase {
    * @param string $class
    *   The name of the created mock class.
    *
-   * @return \Drupal\rules\Engine\RulesConditionContainerInterface
+   * @return \Drupal\rules\Engine\ConditionExpressionContainerInterface
    *   The mocked condition container.
    */
   protected function getMockConditionContainer(array $methods = [], $class = 'RulesConditionContainerMock') {
     return $this->getMockForAbstractClass(
-      'Drupal\rules\Engine\RulesConditionContainer', [], $class, FALSE, TRUE, TRUE, $methods
+      'Drupal\rules\Engine\ConditionExpressionContainer', [], $class, FALSE, TRUE, TRUE, $methods
     );
   }
 
   /**
    * Tests adding conditions to the condition container.
    *
-   * @covers ::addCondition()
+   * @covers ::addExpressionObject
    */
-  public function testAddCondition() {
+  public function testAddExpressionObject() {
     $container = $this->getMockConditionContainer();
     $container->addExpressionObject($this->trueCondition);
 
@@ -48,8 +48,8 @@ class RulesConditionContainerTest extends RulesUnitTestBase {
   /**
    * Tests negating the result of the condition container.
    *
-   * @covers ::negate()
-   * @covers ::isNegated()
+   * @covers ::negate
+   * @covers ::isNegated
    */
   public function testNegate() {
     $container = $this->getMockConditionContainer(['evaluate']);
@@ -68,7 +68,7 @@ class RulesConditionContainerTest extends RulesUnitTestBase {
   /**
    * Tests executing the condition container.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testExecute() {
     $container = $this->getMockConditionContainer(['evaluate']);
@@ -82,7 +82,7 @@ class RulesConditionContainerTest extends RulesUnitTestBase {
   /**
    * Tests executing the condition container with an executable manager.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testExecuteWithExecutableManager() {
     $container = $this->getMockConditionContainer(['evaluate']);

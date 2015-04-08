@@ -18,7 +18,7 @@ namespace Drupal\Tests\rules\Integration\Action {
     /**
      * The action to be tested.
      *
-     * @var \Drupal\rules\Engine\RulesActionInterface
+     * @var \Drupal\rules\Core\RulesActionInterface
      */
     protected $action;
 
@@ -37,7 +37,7 @@ namespace Drupal\Tests\rules\Integration\Action {
     /**
      * Tests the summary.
      *
-     * @covers ::summary()
+     * @covers ::summary
      */
     public function testSummary() {
       $this->assertEquals('Show a message on the site', $this->action->summary());
@@ -46,7 +46,7 @@ namespace Drupal\Tests\rules\Integration\Action {
     /**
      * Tests the action execution.
      *
-     * @covers ::execute()
+     * @covers ::execute
      */
     public function testActionExecution() {
       $this->action->setContextValue('message', 'test message')
@@ -76,7 +76,7 @@ namespace Drupal\Tests\rules\Integration\Action {
     /**
      * Tests that the action works if the optional repeat flag is not set.
      *
-     * @covers ::execute()
+     * @covers ::execute
      */
     public function testOptionalRepeat() {
       $this->action->setContextValue('message', 'test message')

@@ -2,22 +2,22 @@
 
 /**
  * @file
- * Contains \Drupal\rules\Engine\RulesActionBase.
+ * Contains \Drupal\rules\Core\RulesActionBase.
  */
 
-namespace Drupal\rules\Engine;
+namespace Drupal\rules\Core;
 
 use Drupal\Core\Access\AccessResultForbidden;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\rules\Context\RulesContextTrait;
+use Drupal\rules\Context\ContextProviderTrait;
 
 /**
  * Base class for rules actions.
  */
 abstract class RulesActionBase extends ContextAwarePluginBase implements RulesActionInterface {
 
-  use RulesContextTrait;
+  use ContextProviderTrait;
 
   /**
    * The plugin configuration.

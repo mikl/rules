@@ -18,7 +18,7 @@ class FetchEntityByIdTest extends RulesEntityIntegrationTestBase {
   /**
    * The action to be tested.
    *
-   * @var \Drupal\rules\Engine\RulesActionInterface
+   * @var \Drupal\rules\Core\RulesActionInterface
    */
   protected $action;
 
@@ -58,7 +58,7 @@ class FetchEntityByIdTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('Fetch entity by id', $this->action->summary());
@@ -67,7 +67,7 @@ class FetchEntityByIdTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests the action execution.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecution() {
     // Prepare entity storage to return dummy entity on the 'load' execution.
@@ -88,6 +88,6 @@ class FetchEntityByIdTest extends RulesEntityIntegrationTestBase {
       ->execute();
 
     // Entity load with type 'test' and id '1' should return the dummy entity.
-    $this->assertEquals($entity, $this->action->getProvided('entity')->getContextValue('entity'), 'Action returns the loaded entity for fetching entity by id.');
+    $this->assertEquals($entity, $this->action->getProvidedContext('entity')->getContextValue('entity'), 'Action returns the loaded entity for fetching entity by id.');
   }
 }

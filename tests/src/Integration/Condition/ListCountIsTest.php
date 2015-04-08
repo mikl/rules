@@ -18,7 +18,7 @@ class ListCountIsTest extends RulesIntegrationTestBase {
   /**
    * The condition to be tested.
    *
-   * @var \Drupal\rules\Engine\RulesConditionInterface
+   * @var \Drupal\rules\Core\RulesConditionInterface
    */
   protected $condition;
 
@@ -34,7 +34,7 @@ class ListCountIsTest extends RulesIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('List count comparison', $this->condition->summary());
@@ -43,7 +43,7 @@ class ListCountIsTest extends RulesIntegrationTestBase {
   /**
    * Tests evaluating the condition.
    *
-   * @covers ::evaluate()
+   * @covers ::evaluate
    */
   public function testConditionEvaluation() {
     // Test that the list count is greater than 2.

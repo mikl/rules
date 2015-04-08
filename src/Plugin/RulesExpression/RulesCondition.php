@@ -9,11 +9,12 @@ namespace Drupal\rules\Plugin\RulesExpression;
 
 use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\rules\Engine\RulesConditionBase;
-use Drupal\rules\Engine\RulesExpressionConditionInterface;
+use Drupal\rules\Context\ContextHandlerTrait;
+use Drupal\rules\Core\RulesConditionBase;
+use Drupal\rules\Engine\ConditionExpressionInterface;
 use Drupal\rules\Engine\RulesExpressionTrait;
 use Drupal\rules\Engine\RulesState;
-use Drupal\rules\Plugin\RulesDataProcessorManager;
+use Drupal\rules\Context\DataProcessorManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -27,9 +28,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   label = @Translation("An executable condition.")
  * )
  */
-class RulesCondition extends RulesConditionBase implements RulesExpressionConditionInterface, ContainerFactoryPluginInterface {
+class RulesCondition extends RulesConditionBase implements ConditionExpressionInterface, ContainerFactoryPluginInterface {
 
   use RulesExpressionTrait;
+  use ContextHandlerTrait;
 
   /**
    * The condition manager used to instantiate the condition plugin.
@@ -51,10 +53,10 @@ class RulesCondition extends RulesConditionBase implements RulesExpressionCondit
    *   The plugin implementation definition.
    * @param \Drupal\Core\Condition\ConditionManager $conditionManager
    *   The condition manager.
-   * @param \Drupal\rules\Plugin\RulesDataProcessorManager $processor_manager
+   * @param \Drupal\rules\Context\DataProcessorManager $processor_manager
    *   The data processor plugin manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConditionManager $conditionManager, RulesDataProcessorManager $processor_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConditionManager $conditionManager, DataProcessorManager $processor_manager) {
     // Make sure defaults are applied.
     $configuration += $this->defaultConfiguration();
     parent::__construct($configuration, $plugin_id, $plugin_definition);

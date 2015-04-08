@@ -18,7 +18,7 @@ class PathAliasDeleteTest extends RulesIntegrationTestBase {
   /**
    * The action to be tested.
    *
-   * @var \Drupal\rules\Engine\RulesActionInterface
+   * @var \Drupal\rules\Core\RulesActionInterface
    */
   protected $action;
 
@@ -46,7 +46,7 @@ class PathAliasDeleteTest extends RulesIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('Delete alias for a path', $this->action->summary());
@@ -55,7 +55,7 @@ class PathAliasDeleteTest extends RulesIntegrationTestBase {
   /**
    * Tests the action execution.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecution() {
 

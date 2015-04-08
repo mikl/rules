@@ -26,7 +26,7 @@ class RulesConditionTest extends RulesUnitTestBase {
   /**
    * The mocked data processor manager.
    *
-   * @var \Drupal\rules\Plugin\RulesDataProcessorManager
+   * @var \Drupal\rules\Context\DataProcessorManager
    */
   protected $processorManager;
 
@@ -46,7 +46,7 @@ class RulesConditionTest extends RulesUnitTestBase {
     // Create a test condition plugin that always evaluates to TRUE. We cannot
     // use $this->trueCondition because it is a Rules expression, but we need a
     // condition plugin here.
-    $this->trueCondition = $this->getMock('Drupal\rules\Engine\RulesConditionInterface');
+    $this->trueCondition = $this->getMock('Drupal\rules\Core\RulesConditionInterface');
     $this->trueCondition->expects($this->any())
       ->method('execute')
       ->will($this->returnValue(TRUE));
@@ -59,7 +59,7 @@ class RulesConditionTest extends RulesUnitTestBase {
       ->disableOriginalConstructor()
       ->getMock();
 
-    $this->processorManager = $this->getMockBuilder('Drupal\rules\Plugin\RulesDataProcessorManager')
+    $this->processorManager = $this->getMockBuilder('Drupal\rules\Context\DataProcessorManager')
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -88,7 +88,7 @@ class RulesConditionTest extends RulesUnitTestBase {
       ->with('test', 'value');
 
     $this->trueCondition->expects($this->once())
-      ->method('getProvidedDefinitions')
+      ->method('getProvidedContextDefinitions')
       ->will($this->returnValue([]));
 
     $this->conditionManager->expects($this->exactly(2))
@@ -120,7 +120,7 @@ class RulesConditionTest extends RulesUnitTestBase {
   public function testDataProcessor() {
     $condition = new RulesCondition([
       'condition_id' => 'rules_or',
-      'processor_mapping' => [
+      'context_processors' => [
         'test' => [
           // We don't care about the data processor plugin name and
           // configuration since we will use a mock anyway.
@@ -140,7 +140,7 @@ class RulesConditionTest extends RulesUnitTestBase {
       ->will($this->returnValue(['test' => $this->getMock('Drupal\Core\Plugin\Context\ContextDefinitionInterface')]));
 
     $this->trueCondition->expects($this->once())
-      ->method('getProvidedDefinitions')
+      ->method('getProvidedContextDefinitions')
       ->will($this->returnValue([]));
 
     // Mock some original old value that will be replaced by the data processor.
@@ -158,7 +158,7 @@ class RulesConditionTest extends RulesUnitTestBase {
       ->method('createInstance')
       ->will($this->returnValue($this->trueCondition));
 
-    $data_processor = $this->getMock('Drupal\rules\Engine\RulesDataProcessorInterface');
+    $data_processor = $this->getMock('Drupal\rules\Context\DataProcessorInterface');
     $data_processor->expects($this->once())
       ->method('process')
       ->with('old_value')

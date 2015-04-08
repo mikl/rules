@@ -2,26 +2,27 @@
 
 /**
  * @file
- * Contains \Drupal\rules\Engine\RulesExpressionContainerInterface.
+ * Contains \Drupal\rules\Engine\ExpressionContainerInterface.
  */
 
 namespace Drupal\rules\Engine;
+use Drupal\rules\Context\ContextConfig;
 
 /**
  * Defines a common interface for expressions containing other expressions.
  *
  * Usually expression containers also implement the
- * RulesActionContainerInterface or RulesConditionContainerInterface in order
+ * ActionExpressionContainerInterface or ConditionExpressionContainerInterface in order
  * to denote whether it contains action or condition expressions.
  */
-interface RulesExpressionContainerInterface extends RulesExpressionInterface {
+interface ExpressionContainerInterface extends ExpressionInterface {
 
   /**
    * Creates and adds an expression.
    *
    * @param string $plugin_id
    *   The id of the expression plugin to add.
-   * @param array $configuration
+   * @param \Drupal\rules\Context\ContextConfig $config
    *   (optional) The configuration for the specified plugin.
    *
    * @throws \Drupal\rules\Exception\InvalidExpressionException
@@ -30,12 +31,12 @@ interface RulesExpressionContainerInterface extends RulesExpressionInterface {
    *
    * @return $this
    */
-  public function addExpression($plugin_id, $configuration = NULL);
+  public function addExpression($plugin_id, ContextConfig $config = NULL);
 
   /**
    * Adds an expression object.
    *
-   * @param \Drupal\rules\Engine\RulesExpressionInterface $expression
+   * @param \Drupal\rules\Engine\ExpressionInterface $expression
    *   The expression object.
    *
    * @throws \Drupal\rules\Exception\InvalidExpressionException
@@ -44,6 +45,6 @@ interface RulesExpressionContainerInterface extends RulesExpressionInterface {
    *
    * @return $this
    */
-  public function addExpressionObject(RulesExpressionInterface $expression);
+  public function addExpressionObject(ExpressionInterface $expression);
 
 }

@@ -18,7 +18,7 @@ class UserIsBlockedTest extends RulesEntityIntegrationTestBase {
   /**
    * The condition to be tested.
    *
-   * @var \Drupal\rules\Engine\RulesConditionInterface
+   * @var \Drupal\rules\Core\RulesConditionInterface
    */
   protected $condition;
 
@@ -35,7 +35,7 @@ class UserIsBlockedTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('User is blocked', $this->condition->summary());
@@ -44,7 +44,7 @@ class UserIsBlockedTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests evaluating the condition.
    *
-   * @covers ::evaluate()
+   * @covers ::evaluate
    */
   public function testConditionEvaluation() {
     $user = $this->getMock('Drupal\user\UserInterface');
