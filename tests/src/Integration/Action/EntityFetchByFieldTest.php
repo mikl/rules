@@ -128,29 +128,28 @@ class EntityFetchByFieldTest extends RulesEntityIntegrationTestBase {
     $query->expects($this->once())
       ->method('condition')
       ->with($field_name, $field_value, '=')
-      ->will($this->returnValue($query));
+      ->willReturn($query);
     $query->expects($this->once())
       ->method('range')
       ->with(0, $limit)
-      ->will($this->returnValue($query));
+      ->willReturn($query);
     $query->expects($this->once())
       ->method('execute')
-      ->will($this->returnValue($entity_ids));
+      ->willReturn($entity_ids);
 
     // Create dummy entity storage object.
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadMultiple')
       ->with($entity_ids)
-      ->will($this->returnValue($entities));
+      ->willReturn($entities);
     $entityStorage->expects($this->once())
       ->method('getQuery')
-      ->will($this->returnValue($query));
+      ->willReturn($query);
     $this->entityManager->expects($this->once())
       ->method('getStorage')
       ->with($entity_type)
-      ->will($this->returnValue($entityStorage));
-
+      ->willReturn($entityStorage);
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
@@ -186,11 +185,11 @@ class EntityFetchByFieldTest extends RulesEntityIntegrationTestBase {
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
       ->with([$field_name => $field_value])
-      ->will($this->returnValue($entities));
+      ->willReturn($entities);
     $this->entityManager->expects($this->once())
       ->method('getStorage')
       ->with($entity_type)
-      ->will($this->returnValue($entityStorage));
+      ->willReturn($entityStorage);
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
