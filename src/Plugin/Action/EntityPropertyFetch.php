@@ -106,7 +106,6 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
     $storage = $this->entityManager->getStorage($entity_type);
 
     // When retrieving entities, if $limit is not set there is no need to use query object directly.
-    $entities = [];
     if (is_null($limit)) {
       $entities = $storage->loadByProperties([$entity_property => $property_value]);
     }
