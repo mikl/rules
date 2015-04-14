@@ -122,8 +122,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
     // Set provided value.
     $this->setProvidedValue('entity_fetched', $entities);
 
-    // Ensure that the provided context has the correct entity type.
-    $this->getProvidedDefinition('entity_fetched')->setDataType("entity:$entity_type");
+    // @TODO Ensure that the provided context has the correct entity type.
   }
 
 }
