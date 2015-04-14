@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Action(
  *   id = "rules_path_alias_delete_by_alias",
  *   label = @Translation("Delete path alias"),
+ *   category = @Translation("Path"),
  *   context = {
  *     "alias" = @ContextDefinition("string",
  *       label = @Translation("Existing system path alias"),
