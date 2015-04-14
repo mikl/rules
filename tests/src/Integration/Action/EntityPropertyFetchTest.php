@@ -59,7 +59,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests the summary.
    *
-   * @covers ::summary()
+   * @covers ::summary
    */
   public function testSummary() {
     $this->assertEquals('Fetch entities by property', $this->action->summary());
@@ -68,7 +68,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests action execution when no value for limit is provided.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecutionWithNoLimit() {
     // Create variables for action context values.
@@ -107,7 +107,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests action execution when a value for limit is provided.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecutionWithLimit() {
     $entity_type = 'entity_test';
@@ -171,7 +171,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   /**
    * Tests that the context provided by the action execution has the correct entity type.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   function testActionExecutionProvidedContextEntityType() {
     // Create variables for action context values.
