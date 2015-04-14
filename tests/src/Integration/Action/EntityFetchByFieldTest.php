@@ -116,14 +116,9 @@ class EntityFetchByFieldTest extends RulesEntityIntegrationTestBase {
     $limit = 2;
 
     // Create an array of dummy entities.
-    $entities = [];
-    for ($i = 0; $i < 4; $i++) {
-      $entity = $this->getMock('Drupal\Core\Entity\EntityInterface');
-      $entities[] = $entity;
-    }
-
-    // Create new dummy array of entities for testing limit.
-    $entities = array_slice($entities, 0, $limit);
+    $entities = array_map(function () {
+      return $this->getMock('Drupal\Core\Entity\EntityInterface');
+    }, range(1, $limit));
 
     // Creates entity ids for new dummy array of entities.
     $entity_ids = range(1, $limit);
