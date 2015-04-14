@@ -120,9 +120,8 @@ class EntityFetchByField extends RulesActionBase implements ContainerFactoryPlug
     }
 
     // Set provided value.
+    // @todo Ensure that the provided context has the correct entity type.
     $this->setProvidedValue('entity_fetched', $entities);
-
-    // @TODO Ensure that the provided context has the correct entity type.
   }
 
 }
