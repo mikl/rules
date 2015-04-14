@@ -101,7 +101,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->execute();
 
     // Test that executing action without a value for limit returns the dummy entities array.
-    $this->assertEquals($entities, $this->action->getProvided('entity_fetched')->getContextValue('entity_fetched'));
+    $this->assertEquals($entities, $this->action->getProvidedContext('entity_fetched')->getContextValue('entity_fetched'));
   }
 
   /**
@@ -165,7 +165,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->execute();
 
     // Test that executing action with a value for limit returns the dummy entities array.
-    $this->assertEquals($entities, $this->action->getProvided('entity_fetched')->getContextValue('entity_fetched'));
+    $this->assertEquals($entities, $this->action->getProvidedContext('entity_fetched')->getContextValue('entity_fetched'));
   }
 
   /**
