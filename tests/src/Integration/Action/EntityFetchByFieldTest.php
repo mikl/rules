@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\rules\Integration\Action\EntityPropertyFetchTest.
+ * Contains \Drupal\Tests\rules\Integration\Action\EntityFetchByFieldTest.
  */
 
 namespace Drupal\Tests\rules\Integration\Action;
@@ -13,7 +13,7 @@ use Drupal\Tests\rules\Integration\RulesEntityIntegrationTestBase;
  * @coversDefaultClass \Drupal\rules\Plugin\Action\EntityFetchByField
  * @group rules_action
  */
-class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
+class EntityFetchByFieldTest extends RulesEntityIntegrationTestBase {
 
   /**
    * The action to be tested.
@@ -53,7 +53,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->willReturn(['entity_test' => ['label' => 'Entity Test']]);
     $this->container->set('entity.manager', $this->entityManager);
 
-    $this->action = $this->actionManager->createInstance('rules_entity_property_fetch');
+    $this->action = $this->actionManager->createInstance('rules_entity_fetch_by_field');
   }
 
   /**
@@ -62,7 +62,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
    * @covers ::summary
    */
   public function testSummary() {
-    $this->assertEquals('Fetch entities by property', $this->action->summary());
+    $this->assertEquals('Fetch entities by field', $this->action->summary());
   }
 
   /**
@@ -73,8 +73,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   public function testActionExecutionWithNoLimit() {
     // Create variables for action context values.
     $entity_type = 'entity_test';
-    $property_name = 'test_property';
-    $property_value = 'llama';
+    $field_name = 'test_field';
+    $field_value = 'llama';
 
     // Create an array of dummy entities.
     $entities = [];
@@ -87,7 +87,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
-      ->with([$property_name => $property_value])
+      ->with([$field_name => $field_value])
       ->will($this->returnValue($entities));
     $this->entityManager->expects($this->once())
       ->method('getStorage')
@@ -96,8 +96,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
-      ->setContextValue('property', $property_name)
-      ->setContextValue('value', $property_value)
+      ->setContextValue('field_name', $field_name)
+      ->setContextValue('field_value', $field_value)
       ->execute();
 
     // Test that executing action without a value for limit returns the dummy entities array.
@@ -111,8 +111,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
    */
   public function testActionExecutionWithLimit() {
     $entity_type = 'entity_test';
-    $property_name = 'test_property';
-    $property_value = 'llama';
+    $field_name = 'test_field';
+    $field_value = 'llama';
     $limit = 2;
 
     // Create an array of dummy entities.
@@ -132,7 +132,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $query = $this->getMock('Drupal\Core\Entity\Query\QueryInterface');
     $query->expects($this->once())
       ->method('condition')
-      ->with($property_name, $property_value, '=')
+      ->with($field_name, $field_value, '=')
       ->will($this->returnValue($query));
     $query->expects($this->once())
       ->method('range')
@@ -159,8 +159,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
-      ->setContextValue('property', $property_name)
-      ->setContextValue('value', $property_value)
+      ->setContextValue('field_name', $field_name)
+      ->setContextValue('field_value', $field_value)
       ->setContextValue('limit', $limit)
       ->execute();
 
@@ -176,8 +176,8 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
   function testActionExecutionProvidedContextEntityType() {
     // Create variables for action context values.
     $entity_type = 'entity_test';
-    $property_name = 'test_property';
-    $property_value = 'llama';
+    $field_name = 'test_field';
+    $field_value = 'llama';
 
     // Create an array of dummy entities.
     $entities = [];
@@ -190,7 +190,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
     $entityStorage = $this->getMock('Drupal\Core\Entity\EntityStorageInterface');
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
-      ->with([$property_name => $property_value])
+      ->with([$field_name => $field_value])
       ->will($this->returnValue($entities));
     $this->entityManager->expects($this->once())
       ->method('getStorage')
@@ -199,11 +199,11 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
-      ->setContextValue('property', $property_name)
-      ->setContextValue('value', $property_value)
+      ->setContextValue('field_name', $field_name)
+      ->setContextValue('field_value', $field_value)
       ->execute();
 
-    // @TODO Test that the provided context has the correct entity type.
+    // @todo Test that the provided context has the correct entity type.
   }
 
 }
