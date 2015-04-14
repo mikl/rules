@@ -88,11 +88,11 @@ class EntityFetchByFieldTest extends RulesEntityIntegrationTestBase {
     $entityStorage->expects($this->once())
       ->method('loadByProperties')
       ->with([$field_name => $field_value])
-      ->will($this->returnValue($entities));
+      ->willReturn($entities);
     $this->entityManager->expects($this->once())
       ->method('getStorage')
       ->with($entity_type)
-      ->will($this->returnValue($entityStorage));
+      ->willReturn($entityStorage);
 
     // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
