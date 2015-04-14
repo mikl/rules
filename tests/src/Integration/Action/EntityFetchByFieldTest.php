@@ -10,7 +10,7 @@ namespace Drupal\Tests\rules\Integration\Action;
 use Drupal\Tests\rules\Integration\RulesEntityIntegrationTestBase;
 
 /**
- * @coversDefaultClass \Drupal\rules\Plugin\Action\EntityPropertyFetch
+ * @coversDefaultClass \Drupal\rules\Plugin\Action\EntityFetchByField
  * @group rules_action
  */
 class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
@@ -94,7 +94,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->with($entity_type)
       ->will($this->returnValue($entityStorage));
 
-    // Set context values for EntityPropertyFetch action and execute.
+    // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
       ->setContextValue('property', $property_name)
       ->setContextValue('value', $property_value)
@@ -157,7 +157,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->will($this->returnValue($entityStorage));
 
 
-    // Set context values for EntityPropertyFetch action and execute.
+    // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
       ->setContextValue('property', $property_name)
       ->setContextValue('value', $property_value)
@@ -197,7 +197,7 @@ class EntityPropertyFetchTest extends RulesEntityIntegrationTestBase {
       ->with($entity_type)
       ->will($this->returnValue($entityStorage));
 
-    // Set context values for EntityPropertyFetch action and execute.
+    // Set context values for EntityFetchByField action and execute.
     $this->action->setContextValue('type', $entity_type)
       ->setContextValue('property', $property_name)
       ->setContextValue('value', $property_value)

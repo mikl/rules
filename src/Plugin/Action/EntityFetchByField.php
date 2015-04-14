@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\rules\Plugin\Action\EntityPropertyFetch.
+ * Contains \Drupal\rules\Plugin\Action\EntityFetchByField.
  */
 
 namespace Drupal\rules\Plugin\Action;
@@ -13,10 +13,10 @@ use Drupal\rules\Core\RulesActionBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a 'Fetch entities by property' action.
+ * Provides a 'Fetch entities by field' action.
  *
  * @Action(
- *   id = "rules_entity_property_fetch",
+ *   id = "rules_entity_fetch_by_field",
  *   label = @Translation("Fetch entities by property"),
  *   category = @Translation("Entity"),
  *   context = {
@@ -48,7 +48,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @todo: Add access callback information from Drupal 7.
  */
-class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPluginInterface {
+class EntityFetchByField extends RulesActionBase implements ContainerFactoryPluginInterface {
 
   /**
    * The entity manager.
@@ -58,7 +58,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
   protected $entityManager;
 
   /**
-   * Constructs a EntityPropertyFetch object.
+   * Constructs a EntityFetchByField object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -90,7 +90,7 @@ class EntityPropertyFetch extends RulesActionBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function summary() {
-    return $this->t('Fetch entities by property');
+    return $this->t('Fetch entities by field');
   }
 
   /**
