@@ -28,7 +28,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *       label = @Translation("Property"),
  *       description = @Translation("Name of the field by which the entity is to be selected.."),
  *     ),
- *     "value" = @ContextDefinition("any",
+ *     "field_value" = @ContextDefinition("any",
  *       label = @Translation("Value"),
  *       description = @Translation("The field value of the entity to be fetched."),
  *     ),
@@ -100,7 +100,7 @@ class EntityFetchByField extends RulesActionBase implements ContainerFactoryPlug
     // Retrieve context values for action.
     $entity_type = $this->getContextValue('type');
     $field_name = $this->getContextValue('field_name');
-    $field_value = $this->getContextValue('value');
+    $field_value = $this->getContextValue('field_value');
     $limit = $this->getContextValue('limit');
 
     $storage = $this->entityManager->getStorage($entity_type);
