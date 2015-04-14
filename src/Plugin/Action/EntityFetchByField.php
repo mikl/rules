@@ -17,20 +17,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Action(
  *   id = "rules_entity_fetch_by_field",
- *   label = @Translation("Fetch entities by property"),
+ *   label = @Translation("Fetch entities by field"),
  *   category = @Translation("Entity"),
  *   context = {
  *     "type" = @ContextDefinition("string",
  *       label = @Translation("Entity type"),
  *       description = @Translation("Specifies the type of the entity that should be fetched."),
  *     ),
- *     "property" = @ContextDefinition("string",
+ *     "field_name" = @ContextDefinition("string",
  *       label = @Translation("Property"),
- *       description = @Translation("The property by which the entity is to be selected.."),
+ *       description = @Translation("Name of the field by which the entity is to be selected.."),
  *     ),
  *     "value" = @ContextDefinition("any",
  *       label = @Translation("Value"),
- *       description = @Translation("The property value of the entity to be fetched."),
+ *       description = @Translation("The field value of the entity to be fetched."),
  *     ),
  *     "limit" = @ContextDefinition("integer",
  *       label = @Translation("Limit"),
@@ -99,8 +99,8 @@ class EntityFetchByField extends RulesActionBase implements ContainerFactoryPlug
   public function execute() {
     // Retrieve context values for action.
     $entity_type = $this->getContextValue('type');
-    $entity_property = $this->getContextValue('property');
-    $property_value = $this->getContextValue('value');
+    $field_name = $this->getContextValue('field_name');
+    $field_value = $this->getContextValue('value');
     $limit = $this->getContextValue('limit');
 
     $storage = $this->entityManager->getStorage($entity_type);
@@ -108,12 +108,12 @@ class EntityFetchByField extends RulesActionBase implements ContainerFactoryPlug
     // When retrieving entities, if $limit is not set there is no need to use
     // the query object directly.
     if (is_null($limit)) {
-      $entities = $storage->loadByProperties([$entity_property => $property_value]);
+      $entities = $storage->loadByProperties([$field_name => $field_value]);
     }
     else {
       $query = $storage->getQuery();
       $entity_ids = $query
-        ->condition($entity_property, $property_value, '=')
+        ->condition($field_name, $field_value, '=')
         ->range(0, $limit)
         ->execute();
       $entities = $storage->loadMultiple($entity_ids);
